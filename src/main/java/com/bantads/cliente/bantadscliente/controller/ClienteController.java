@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bantads.cliente.bantadscliente.DTOs.ClientePutDTO;
 import com.bantads.cliente.bantadscliente.DTOs.ClienteResponseDTO;
 import com.bantads.cliente.bantadscliente.data.ClienteRepository;
+import com.bantads.cliente.bantadscliente.mapper.ClienteMapper;
 import com.bantads.cliente.bantadscliente.model.Cliente;
-import com.bantads.cliente.bantadscliente.model.Endereco;
+import com.bantads.cliente.bantadscliente.validator.ClienteValidator;
 
 @CrossOrigin
 @RestController
@@ -33,25 +34,17 @@ public class ClienteController {
     @PutMapping("/{id}")
     public ResponseEntity<Cliente> update(@PathVariable("id") UUID id, @RequestBody ClientePutDTO clientePutDTO) {
         try {
-            Optional<Cliente> clienteOp = clienteRepository.findById(id);
-            if (clienteOp.isPresent()) {
-                Cliente cliente = clienteOp.get();
-
-                cliente.setNome(clientePutDTO.getNome());
-                cliente.setSalario(clientePutDTO.getSalario());
-                cliente.getEndereco().setCep(clientePutDTO.getEndereco().getCep());
-                cliente.getEndereco().setLogradouro(clientePutDTO.getEndereco().getLogradouro());
-                cliente.getEndereco().setNumero(clientePutDTO.getEndereco().getNumero());
-                cliente.getEndereco().setComplemento(clientePutDTO.getEndereco().getComplemento());
-                cliente.getEndereco().setBairro(clientePutDTO.getEndereco().getBairro());
-                cliente.getEndereco().setCidade(clientePutDTO.getEndereco().getCidade());
-                cliente.getEndereco().setEstado(clientePutDTO.getEndereco().getEstado());
-
-                clienteRepository.save(cliente);
-                return ResponseEntity.ok().build();
-            } else {
+            if (ClienteValidator.validate(clientePutDTO))
                 return ResponseEntity.badRequest().build();
-            }
+
+            Optional<Cliente> clienteOp = clienteRepository.findById(id);
+            if (!clienteOp.isPresent())
+                return ResponseEntity.notFound().build();
+
+            Cliente cliente = clienteOp.get();
+            ClienteMapper.map(cliente, clientePutDTO, mapper);
+            clienteRepository.save(cliente);
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(500).build();
         }
@@ -62,14 +55,12 @@ public class ClienteController {
         try {
             Optional<Cliente> clienteOp = clienteRepository.findById(id);
 
-            if (clienteOp.isPresent()) {
-                Cliente cliente = clienteOp.get();
-                ClienteResponseDTO ClienteResponseDTO = mapper.map(cliente, ClienteResponseDTO.class);
-                return ResponseEntity.ok(ClienteResponseDTO);
-            } else {
+            if (!clienteOp.isPresent())
                 return ResponseEntity.notFound().build();
-            }
 
+            Cliente cliente = clienteOp.get();
+            ClienteResponseDTO ClienteResponseDTO = mapper.map(cliente, ClienteResponseDTO.class);
+            return ResponseEntity.ok(ClienteResponseDTO);
         } catch (Exception e) {
             return ResponseEntity.status(500).build();
         }
@@ -78,16 +69,16 @@ public class ClienteController {
     @GetMapping("/por-cpf/{cpf}")
     public ResponseEntity<ClienteResponseDTO> getClientePorIdUsuario(@PathVariable String cpf) {
         try {
+            if (ClienteValidator.validateCpf(cpf))
+                return ResponseEntity.badRequest().build();
+
             Optional<Cliente> clienteOp = clienteRepository.findByCpf(cpf);
-
-            if (clienteOp.isPresent()) {
-                Cliente cliente = clienteOp.get();
-                ClienteResponseDTO ClienteResponseDTO = mapper.map(cliente, ClienteResponseDTO.class);
-                return ResponseEntity.ok(ClienteResponseDTO);
-            } else {
+            if (!clienteOp.isPresent())
                 return ResponseEntity.notFound().build();
-            }
 
+            Cliente cliente = clienteOp.get();
+            ClienteResponseDTO ClienteResponseDTO = mapper.map(cliente, ClienteResponseDTO.class);
+            return ResponseEntity.ok(ClienteResponseDTO);
         } catch (Exception e) {
             return ResponseEntity.status(500).build();
         }
@@ -98,14 +89,12 @@ public class ClienteController {
         try {
             Optional<Cliente> clienteOp = clienteRepository.findByIdExternoUsuario(idExternoUsuario);
 
-            if (clienteOp.isPresent()) {
-                Cliente cliente = clienteOp.get();
-                ClienteResponseDTO ClienteResponseDTO = mapper.map(cliente, ClienteResponseDTO.class);
-                return ResponseEntity.ok(ClienteResponseDTO);
-            } else {
+            if (!clienteOp.isPresent())
                 return ResponseEntity.notFound().build();
-            }
 
+            Cliente cliente = clienteOp.get();
+            ClienteResponseDTO ClienteResponseDTO = mapper.map(cliente, ClienteResponseDTO.class);
+            return ResponseEntity.ok(ClienteResponseDTO);
         } catch (Exception e) {
             return ResponseEntity.status(500).build();
         }
