@@ -1,4 +1,4 @@
-package com.bantads.cliente.bantadscliente.services.Producer;
+package com.bantads.cliente.bantadscliente.services.Producer.Analise;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Value;

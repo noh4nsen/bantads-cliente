@@ -1,4 +1,4 @@
-package com.bantads.cliente.bantadscliente.services.Producer;
+package com.bantads.cliente.bantadscliente.services.Producer.Analise;
 
 import java.util.UUID;
 
@@ -15,7 +15,7 @@ public class SenderAnalise {
     @Autowired
     private Queue queueAnaliseGerente;
 
-    public void send(UUID saga){
-        this.template.convertAndSend(this.queueAnaliseGerente.getName(), saga);
+    public void send(UUID id){
+        this.template.convertAndSend(this.queueAnaliseGerente.getName(), id);
     }
 }

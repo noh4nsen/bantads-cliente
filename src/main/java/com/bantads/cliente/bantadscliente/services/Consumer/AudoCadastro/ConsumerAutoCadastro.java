@@ -1,6 +1,5 @@
-package com.bantads.cliente.bantadscliente.services.Consumer;
+package com.bantads.cliente.bantadscliente.services.Consumer.AudoCadastro;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -10,9 +9,8 @@ import org.springframework.stereotype.Component;
 
 import com.bantads.cliente.bantadscliente.data.ClienteRepository;
 import com.bantads.cliente.bantadscliente.mapper.AnaliseMapper;
-import com.bantads.cliente.bantadscliente.model.Analise;
 import com.bantads.cliente.bantadscliente.model.Cliente;
-import com.bantads.cliente.bantadscliente.services.Producer.SenderAnalise;
+import com.bantads.cliente.bantadscliente.services.Producer.Analise.SenderAnalise;
 import com.bantads.cliente.bantadscliente.services.Producer.Rollback.SenderAutenticacao;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -39,7 +37,7 @@ public class ConsumerAutoCadastro {
             cliente.setAnalise(AnaliseMapper.novaAnalise(cliente.getSaga()));
             cliente.getEndereco().setId(UUID.randomUUID());
             clienteRepository.save(cliente);
-            senderAnalise.send(cliente.getAnalise().getSaga());
+            senderAnalise.send(cliente.getAnalise().getId());
         } catch (Exception e) {
             System.out.println(e);
             Cliente cliente = objectMapper.readValue(json, Cliente.class);

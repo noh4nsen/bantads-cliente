@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.bantads.cliente.bantadscliente.services.Producer.SenderAnalise;
+import com.bantads.cliente.bantadscliente.services.Producer.Analise.SenderAnalise;
 import com.bantads.cliente.bantadscliente.services.Producer.Rollback.SenderAutenticacao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
