@@ -1,22 +1,33 @@
 package com.bantads.cliente.bantadscliente.model;
 
 import java.io.Serializable;
-import java.security.Timestamp;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "analise")
 public class Analise implements Serializable {
-    private int id;
+    private UUID id;
     private String motivo;
     private boolean aprovacao;
-    private Timestamp dataHora;
+    private LocalDateTime dataHora;
     private Cliente cliente;
-    private int idExternoGerente;
+    private UUID idExternoGerente;
+    private UUID saga;
 
     public Analise() {
         super();
     }
 
-    public Analise(int id, String motivo, boolean aprovacao, Timestamp dataHora, Cliente cliente,
-            int idExternoGerente) {
+    public Analise(UUID id, String motivo, boolean aprovacao, LocalDateTime dataHora, Cliente cliente,
+            UUID idExternoGerente, UUID saga) {
         super();
         this.id = id;
         this.motivo = motivo;
@@ -24,16 +35,20 @@ public class Analise implements Serializable {
         this.dataHora = dataHora;
         this.cliente = cliente;
         this.idExternoGerente = idExternoGerente;
+        this.saga = saga;
     }
 
-    public int getId() {
+    @Id
+    @Column(name = "id")
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
+    @Column(name = "motivo")
     public String getMotivo() {
         return motivo;
     }
@@ -42,6 +57,7 @@ public class Analise implements Serializable {
         this.motivo = motivo;
     }
 
+    @Column(name = "aprovado")
     public boolean isAprovacao() {
         return aprovacao;
     }
@@ -50,14 +66,16 @@ public class Analise implements Serializable {
         this.aprovacao = aprovacao;
     }
 
-    public Timestamp getDataHora() {
+    @Column(name = "datahora")
+    public LocalDateTime getDataHora() {
         return dataHora;
     }
 
-    public void setDataHora(Timestamp dataHora) {
+    public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
     }
 
+    @OneToOne(mappedBy = "analise", cascade = CascadeType.ALL)
     public Cliente getCliente() {
         return cliente;
     }
@@ -66,12 +84,22 @@ public class Analise implements Serializable {
         this.cliente = cliente;
     }
 
-    public int getIdExternoGerente() {
+    @Column(name = "idexternogerente")
+    public UUID getIdExternoGerente() {
         return idExternoGerente;
     }
 
-    public void setIdExternoGerente(int idExternoGerente) {
+    public void setIdExternoGerente(UUID idExternoGerente) {
         this.idExternoGerente = idExternoGerente;
+    }
+
+    @Column(name = "saga")
+    public UUID getSaga() {
+        return saga;
+    }
+
+    public void setSaga(UUID saga) {
+        this.saga = saga;
     }
 
 }
