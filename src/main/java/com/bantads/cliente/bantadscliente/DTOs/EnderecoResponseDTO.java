@@ -1,18 +1,10 @@
-package com.bantads.cliente.bantadscliente.model;
+package com.bantads.cliente.bantadscliente.DTOs;
 
-import java.io.Serializable;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import com.bantads.cliente.bantadscliente.model.Estado;
 
-@Entity
-@Table(name = "endereco")
-public class Endereco implements Serializable {
+public class EnderecoResponseDTO {
     private UUID id;
     private String cep;
     private String logradouro;
@@ -21,15 +13,12 @@ public class Endereco implements Serializable {
     private String bairro;
     private String cidade;
     private Estado estado;
-    private Cliente cliente;
 
-    public Endereco() {
-        super();
+    public EnderecoResponseDTO() {
     }
 
-    public Endereco(UUID id, String cep, String logradouro, int numero, String complemento, String bairro,
-            String cidade, Estado estado, Cliente cliente) {
-        super();
+    public EnderecoResponseDTO(UUID id, String cep, String logradouro, int numero, String complemento, String bairro,
+            String cidade, Estado estado) {
         this.id = id;
         this.cep = cep;
         this.logradouro = logradouro;
@@ -38,11 +27,8 @@ public class Endereco implements Serializable {
         this.bairro = bairro;
         this.cidade = cidade;
         this.estado = estado;
-        this.cliente = cliente;
     }
 
-    @Id
-    @Column(name = "id")
     public UUID getId() {
         return id;
     }
@@ -51,7 +37,6 @@ public class Endereco implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "cep")
     public String getCep() {
         return cep;
     }
@@ -60,7 +45,6 @@ public class Endereco implements Serializable {
         this.cep = cep;
     }
 
-    @Column(name = "logradouro")
     public String getLogradouro() {
         return logradouro;
     }
@@ -69,7 +53,6 @@ public class Endereco implements Serializable {
         this.logradouro = logradouro;
     }
 
-    @Column(name = "numero")
     public int getNumero() {
         return numero;
     }
@@ -78,7 +61,6 @@ public class Endereco implements Serializable {
         this.numero = numero;
     }
 
-    @Column(name = "complemento")
     public String getComplemento() {
         return complemento;
     }
@@ -87,7 +69,6 @@ public class Endereco implements Serializable {
         this.complemento = complemento;
     }
 
-    @Column(name = "bairro")
     public String getBairro() {
         return bairro;
     }
@@ -96,7 +77,6 @@ public class Endereco implements Serializable {
         this.bairro = bairro;
     }
 
-    @Column(name = "cidade")
     public String getCidade() {
         return cidade;
     }
@@ -105,7 +85,6 @@ public class Endereco implements Serializable {
         this.cidade = cidade;
     }
 
-    @Column(name = "estado")
     public Estado getEstado() {
         return estado;
     }
@@ -114,12 +93,4 @@ public class Endereco implements Serializable {
         this.estado = estado;
     }
 
-    @OneToOne(mappedBy = "endereco", cascade = CascadeType.ALL)
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente){
-        this.cliente = cliente;
-    }
 }
