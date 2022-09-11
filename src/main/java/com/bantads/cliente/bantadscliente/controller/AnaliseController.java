@@ -89,6 +89,7 @@ public class AnaliseController {
             analise.setAprovacao(false);
             analise.setMotivo(analiseReprovacaoDTO.getMotivo());
             analise.setDataHora(LocalDateTime.now());
+            analiseRepository.save(analise);
 
             return ResponseEntity.ok().build();
         } catch (Exception e) {
