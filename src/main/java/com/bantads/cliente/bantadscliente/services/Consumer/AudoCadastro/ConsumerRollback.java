@@ -14,7 +14,7 @@ public class ConsumerRollback {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    @RabbitListener(queues = "rollback-autocadastro-cliente")
+    @RabbitListener(queues = "autocadastro-cliente-rollback")
     public void receive(@Payload String json) {
         try {
             UUID saga = UUID.fromString(json);
