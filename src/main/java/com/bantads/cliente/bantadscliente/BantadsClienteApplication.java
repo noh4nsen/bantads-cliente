@@ -5,10 +5,11 @@ import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
 import com.bantads.cliente.bantadscliente.services.Producer.Analise.SenderAnalise;
 import com.bantads.cliente.bantadscliente.services.Producer.Rollback.SenderAutenticacao;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @EnableRabbit
 @SpringBootApplication
@@ -25,7 +26,10 @@ public class BantadsClienteApplication {
 
 	@Bean
 	public ObjectMapper objectMapper() {
-		return new ObjectMapper();
+		ObjectMapper mapper = JsonMapper.builder()
+		.addModule(new JavaTimeModule())
+		.build();
+		return mapper;
 	}
 
 	@Bean
@@ -37,4 +41,5 @@ public class BantadsClienteApplication {
 	public SenderAutenticacao senderAu() {
 		return new SenderAutenticacao();
 	}
+
 }

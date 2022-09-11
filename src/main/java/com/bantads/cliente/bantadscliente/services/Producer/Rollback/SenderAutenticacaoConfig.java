@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SenderAutenticacaoConfig {
-    @Value("rollback-autocadastro-autenticacao")
+    @Value("autocadastro-autenticacao-rollback")
     private String queueRollbackAutocadastroAutenticacao;
 
     @Bean
